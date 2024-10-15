@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import CreatingDesignModal from './CreatingDesignModal';
 import { Modal, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import CreatingDesignModal from './CreatingDesignModal';
 import bathroomIcon from '../assets/bathroom.png';
 import bedroomIcon from '../assets/bedroom.png';
 import kitchenIcon from '../assets/kitchen.png';
 import livingroomIcon from '../assets/livingroom.png';
 import designImage from '../assets/design.jpeg';
-import directionImage from '../assets/Direction.png';
-import loading from '../assets/Pic4.webp';
 
 const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
   const navigate = useNavigate();
@@ -27,8 +26,10 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
     bottom: false,
     left: false
   });
+  const [specialRequest, setSpecialRequest] = useState(initialData?.specialRequest || '');
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (initialData) {
@@ -47,31 +48,47 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
         bottom: false,
         left: false
       });
+      setSpecialRequest(initialData.specialRequest || '');
     }
   }, [initialData]);
 
   useEffect(() => {
     const isFormDirty = designName !== '' || length !== '' || width !== '' ||
       Object.values(rooms).some(value => value !== 1) ||
-      Object.values(windows).some(value => value === true);
+      Object.values(windows).some(value => value === true) ||
+      specialRequest !== '';
     setIsDirty(isFormDirty);
-  }, [designName, length, width, rooms, windows, setIsDirty]);
+  }, [designName, length, width, rooms, windows, specialRequest, setIsDirty]);
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const designInfo = {
       designName,
       length,
       width,
       rooms,
-      windows
+      windows,
+      specialRequest
     };
-    onSubmit(designInfo);
+    setIsLoading(true);
     setShowModal(true);
-    setIsDirty(false);
+    try {
+      const response = await axios.post('/api/designs', designInfo);
+      onSubmit(response.data);
+      setIsDirty(false);
+      // Wait for the response before navigating
+      setTimeout(() => {
+        setShowModal(false);
+        setIsLoading(false);
+        navigate('/info-form', { state: { designInfo: response.data } });
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting design:', error);
+      setShowModal(false);
+      setIsLoading(false);
+      // Handle error (e.g., show error message to user)
+    }
   };
-
   const handleNewDesign = () => {
     if (isDirty) {
       setShowConfirmModal(true);
@@ -96,8 +113,10 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
       bottom: false,
       left: false
     });
+    setSpecialRequest('');
     setIsDirty(false);
   };
+
   const handleRoomChange = (room, change) => {
     setRooms(prev => ({
       ...prev,
@@ -112,7 +131,6 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
     }));
   };
 
-
   const roomIcons = {
     livingRoom: livingroomIcon,
     bathroom: bathroomIcon,
@@ -120,12 +138,13 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
     kitchen: kitchenIcon
   };
 
+
   return (
     <>
       <form onSubmit={handleSubmit} className="p-4 rounded" style={{ backgroundColor: '#F0F0F0' }}>
-        <div className="mb-3 row align-items-center">
-          <label htmlFor="designName" className="col-2 col-form-label text-start mb-3">Design Name:</label>
-          <div className="col-9 mb-3">
+        <div className="mb-2 row align-items-center">
+          <label htmlFor="designName" className="col-2 col-form-label text-start mb-2">Design Name:</label>
+          <div className="col-9 mb-2">
             <input
               type="text"
               className="form-control"
@@ -139,9 +158,9 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
           </div>
         </div>
 
-        <div className="mb-3 row align-items-center">
-          <label className="col-2 col-form-label text-start mb-3">House Area:</label>
-          <div className="col-9 d-flex align-items-center mb-3">
+        <div className="mb-2 row align-items-center">
+          <label className="col-2 col-form-label text-start mb-2">House Area:</label>
+          <div className="col-9 d-flex align-items-center mb-2">
             <input
               type="number"
               className="form-control me-2"
@@ -166,9 +185,9 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
           </div>
         </div>
 
-        <div className="mb-3 row">
-          <label className="col-2 col-form-label text-start mb-3">Room Amount:</label>
-          <div className="col-9 mb-3">
+        <div className="mb-2 row">
+          <label className="col-2 col-form-label text-start mb-2">Room Amount:</label>
+          <div className="col-9 mb-2">
             <div className="d-flex justify-content-between" style={{ maxWidth: '600px' }}>
               {Object.entries(rooms).map(([room, count]) => (
                 <div key={room} className="text-center " style={{
@@ -196,24 +215,13 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
           </div>
         </div>
 
-        <div className="mb-3 row">
+        <div className="mb-2 row">
           <label className="col-2 col-form-label text-start">Windows:</label>
           <div className="col-10">
-            <div className="position-relative mb-3" style={{ width: '100%', maxWidth: '400px' }}>
+            <div className="position-relative mb-2" style={{ width: '100%', maxWidth: '400px' }}>
               <img src={designImage} alt="Floor Plan" className="img-fluid" />
-              <img 
-                src={directionImage} 
-                alt="Directions" 
-                style={{ 
-                  position: 'absolute', 
-                  top: '50%', 
-                  right: '-30px', 
-                  transform: 'translateY(-50%)', 
-                  width: '30px' 
-                }} 
-              />
             </div>
-            <div className="d-flex justify-content-between" style={{ maxWidth: '400px' }}>
+            <div className="d-flex justify-content-between mb-2" style={{ maxWidth: '400px' }}>
               {['top', 'right', 'bottom', 'left'].map((position) => (
                 <div key={position} className="form-check">
                   <input
@@ -223,7 +231,7 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
                     checked={windows[position]}
                     onChange={() => handleWindowChange(position)}
                   />
-                  <label className="form-check-label" htmlFor={`window-${position}`}>
+                  <label className="form-check-label " htmlFor={`window-${position}`}>
                     {position}
                   </label>
                 </div>
@@ -232,13 +240,43 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
           </div>
         </div>
 
+        <div className="mb-2 row">
+          <label htmlFor="specialRequest" className="col-2 col-form-label text-start">Special Request:</label>
+          <div className="col-10">
+            <textarea
+              className="form-control"
+              id="specialRequest"
+              value={specialRequest}
+              onChange={(e) => setSpecialRequest(e.target.value)}
+              style={{ width: '100%', minHeight: '100px' }}
+              placeholder="Enter any special requests or additional information here..."
+            />
+          </div>
+        </div>
+
         <div className="text-end">
           <button type="submit" className="btn btn-dark">Submit</button>
         </div>
       </form>
 
-      <CreatingDesignModal show={showModal} loading={loading} />
-      
+      <CreatingDesignModal show={showModal} loading={isLoading} />
+      <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Unsaved Changes</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>You have unsaved changes. Are you sure you want to start a new design?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={() => {
+            resetForm();
+            setShowConfirmModal(false);
+          }}>
+            Start New Design
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
     </>
   );

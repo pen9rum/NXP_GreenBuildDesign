@@ -1,24 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
-import { useDesignContext } from './DesignContext';
 import homeIcon from '../assets/home.png';
 import penIcon from '../assets/pen-tool.png';
 import userIcon from '../assets/user.png';
 
-const Header = ({ onNewDesign, isDesignFormDirty }) => {
+const Header = ({ onNewDesign, isDesignFormDirty, currentDesign }) => {
     const [showModal, setShowModal] = useState(false);
-    const { currentDesign } = useDesignContext();
 
     const handleNewDesign = () => {
         if (currentDesign) {
-            // 如果在 InfoForm，直接執行 onNewDesign
+            // If in InfoForm, directly execute onNewDesign
             onNewDesign();
         } else if (isDesignFormDirty) {
-            // 如果在 DesignForm 且有填寫內容，顯示 Modal
+            // If in DesignForm and there's content, show Modal
             setShowModal(true);
         } else {
-            // 如果在 DesignForm 但沒有填寫內容，直接執行 onNewDesign
+            // If in DesignForm but no content, directly execute onNewDesign
             onNewDesign();
         }
     };
