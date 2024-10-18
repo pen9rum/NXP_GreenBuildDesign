@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS  # 引入 CORS
+import time
 
 # from google.cloud import firestore
 # import os
@@ -35,14 +36,40 @@ def create_design():
     #         'score': design_data.get('score', 1),  # 獲取 score，默認為 1
     #         'description': design_data.get('description', '')  # 獲取 description，默認為空字符串
     #     })
+    response = {
+            "designName": "sdfsdf",
+            "length": "1",
+            "width": "1",
+            "rooms": {
+                "livingRoom": 1,
+                "bathroom": 1,
+                "bedroom": 1,
+                "kitchen": 1
+            },
+            "specialRequest": "",
+            "windows": {
+                "top": False,
+                "right": False,
+                "bottom": False,
+                "left": False
+            }
+        }
 
     # 返回創建的設計的 ID 和所有設計
-    return jsonify({
-        'id': 0,  # 同一個設計下的單一 ID
-        'all_designs': [{
-            'pic':'',
-    }]  # 所有設計
-    }), 201
+    return jsonify(response), 201
+
+# 獲取歷史紀錄
+@app.route('/api/getHistoryDesigns', methods=['GET'])
+def getHistoryDesign():
+    designs_ref = db.collection('designs')  # 替換 'designs' 為您的集合名稱
+    designs = designs_ref.stream()
+
+    history_designs = []
+    for design in designs:
+        history_designs.append(design.to_dict())  # 將每個設計轉換為字典格式
+
+    return jsonify(history_designs), 200  # 返回歷史紀錄，狀態碼 200
+
 
 if __name__ == '__main__':
     app.run(debug=True)  # 啟動 Flask 應用

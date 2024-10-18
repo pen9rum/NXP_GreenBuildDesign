@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import designImage from '../assets/design.jpeg';
+// import axios from 'axios';
 
 const Sidebar = ({ designs, onSelectDesign }) => {
+
+  // const response = [];
+
+
   return (
     <nav className="col-md-3 col-lg-2 d-md-block sidebar shadow-lg">
       <div className="position-sticky pt-3">

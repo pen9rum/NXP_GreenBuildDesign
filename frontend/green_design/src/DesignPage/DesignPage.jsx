@@ -13,6 +13,7 @@ const DesignPage = () => {
     const [designs, setDesigns] = useState([]);
     const [currentDesign, setCurrentDesign] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    
 
     const handleDesignSubmit = (designInfo) => {
         setIsLoading(true);
