@@ -1,10 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState} from 'react';
 import designImage from '../assets/design.jpeg';
-// import axios from 'axios';
+import axios from 'axios';
 
-const Sidebar = ({ designs, onSelectDesign }) => {
 
-  // const response = [];
+const Sidebar = ({ designs: initialDesigns,onSelectDesign }) => {
+
+  const [designs, setDesigns] = useState(initialDesigns || []); // 初始化本地設計資料
+
+    useEffect(() => {
+        const fetchDesigns = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:5000/api/getHistoryDesigns');
+                setDesigns(response.data);
+            } catch (error) {
+                console.error('Error fetching designs:', error);
+            }
+        };
+        // 只有當本地設計資料為空時，才從 API 獲取
+        if (!designs.length) {
+            fetchDesigns();
+        }
+    }, []); // 只在組件掛載時執行
 
 
   return (
@@ -16,8 +32,8 @@ const Sidebar = ({ designs, onSelectDesign }) => {
         <hr/>
         <ul className="nav flex-column">
           {designs.length > 0 ? (
-            designs.map((design, index) => (
-              <li key={index} className="nav-item mb-3">
+            designs.map((design) => (
+              <li key={design.id} className="nav-item mb-3">
                 <button
                   className="nav-link btn btn-link text-start p-0"
                   onClick={() => onSelectDesign(design)}
