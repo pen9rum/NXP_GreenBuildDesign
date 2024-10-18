@@ -9,10 +9,9 @@ const App = () => {
   return (
     <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/main" element={<MainPage />} />
           <Route path="/design" element={<DesignPage />} />
-          <Route path="/login" element={<LoginRegistrationForm />} />
+          <Route path="/" element={<LoginRegistrationForm />} />
           {/* 其他路由可以在這裡添加 */}
         </Routes>
     </Router>

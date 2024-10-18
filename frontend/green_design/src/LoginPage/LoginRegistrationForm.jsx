@@ -31,7 +31,7 @@ const LoginRegistrationForm = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        navigate('/');
+        navigate('/main');
       }
     });
 

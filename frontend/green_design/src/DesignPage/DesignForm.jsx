@@ -74,7 +74,7 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
     setShowModal(true);
     try {
       console.log(designInfo)
-      const response = await axios.post('/api/designs', designInfo);
+      const response = await axios.post('http://127.0.0.1:5000/api/designs', designInfo);
       
       onSubmit(response.data);
       setIsDirty(false);
@@ -82,8 +82,8 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
       setTimeout(() => {
         setShowModal(false);
         setIsLoading(false);
-        navigate('/info-form', { state: { designInfo: response.data } });
-      }, 3000);
+        // navigate('/design', { state: { designInfo: response.data } });
+      }, 300000);
     } catch (error) {
       console.error('Error submitting design:', error);
       setShowModal(false);
