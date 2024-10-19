@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Carousel } from 'react-bootstrap';
 import livingroomIcon from '../assets/livingroom.png';
 import bathroomIcon from '../assets/bathroom.png';
 import bedroomIcon from '../assets/bedroom.png';
 import kitchenIcon from '../assets/kitchen.png';
 
 const InfoForm = ({ designInfo }) => {
-  const { designName, length, width, rooms, windows } = designInfo;
+  const { designName, length, width, rooms, windows, gpt_configurations } = designInfo;
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const roomIcons = {
     livingRoom: livingroomIcon,
     bathroom: bathroomIcon,
     bedroom: bedroomIcon,
     kitchen: kitchenIcon
+  };
+
+  const handleSelect = (selectedIndex) => {
+    setCurrentIndex(selectedIndex);
   };
 
   return (
@@ -53,6 +59,40 @@ const InfoForm = ({ designInfo }) => {
           ))}
         </ul>
       </div>
+
+      {gpt_configurations.configurations && gpt_configurations.configurations.length > 0 && (
+        <div className="mt-4">
+          <h4>Configuration Options:</h4>
+          <Carousel activeIndex={currentIndex} onSelect={handleSelect}>
+            {gpt_configurations.configurations.map((config, index) => (
+              <Carousel.Item key={index}>
+                <img
+                  className="d-block w-100"
+                  src={`data:image/png;base64,${config.image}`}
+                  alt={`Configuration ${index + 1}`}
+                />
+                <Carousel.Caption>
+                  <h5>{config.name}</h5>
+                </Carousel.Caption>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+          
+          <div className="mt-3">
+            <h5>{gpt_configurations.configurations[currentIndex].name}</h5>
+            <p>{gpt_configurations.configurations[currentIndex].description}</p>
+            <h6>Energy Efficiency Report:</h6>
+            <p>Grade: {gpt_configurations.configurations[currentIndex].energy_efficiency_report.energy_efficiency_grade}</p>
+            <p>Total Score: {gpt_configurations.configurations[currentIndex].energy_efficiency_report.total_score}</p>
+            <h6>Detailed Scores:</h6>
+            <ul>
+              {Object.entries(gpt_configurations.configurations[currentIndex].energy_efficiency_report.detailed_scores).map(([key, value]) => (
+                <li key={key}>{key.replace(/_/g, ' ')}: {value}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
