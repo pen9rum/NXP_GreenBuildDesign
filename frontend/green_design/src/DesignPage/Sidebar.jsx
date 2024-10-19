@@ -1,27 +1,24 @@
-import React, { useEffect, useState} from 'react';
-import designImage from '../assets/design.jpeg';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
+import { db } from '../config/firebase';
 
+const Sidebar = ({ onSelectDesign }) => {
+  const [designs, setDesigns] = useState([]);
 
-const Sidebar = ({ designs: initialDesigns,onSelectDesign }) => {
+  useEffect(() => {
+    const designsRef = collection(db, 'designs');
+    const q = query(designsRef, orderBy('createdAt', 'desc'), limit(10));
 
-  const [designs, setDesigns] = useState(initialDesigns || []); // 初始化本地設計資料
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const designsData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setDesigns(designsData);
+    });
 
-    useEffect(() => {
-        const fetchDesigns = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:5000/api/getHistoryDesigns');
-                setDesigns(response.data);
-            } catch (error) {
-                console.error('Error fetching designs:', error);
-            }
-        };
-        // 只有當本地設計資料為空時，才從 API 獲取
-        if (!designs.length) {
-            fetchDesigns();
-        }
-    }, []); // 只在組件掛載時執行
-
+    return () => unsubscribe();
+  }, []);
 
   return (
     <nav className="col-md-3 col-lg-2 d-md-block sidebar shadow-lg">
@@ -39,7 +36,7 @@ const Sidebar = ({ designs: initialDesigns,onSelectDesign }) => {
                   onClick={() => onSelectDesign(design)}
                 >
                   <div className="p-2 rounded" style={{backgroundColor:'#D9D9D9'}}>
-                    <img src={designImage} alt="Design" className="img-fluid mb-2" />
+                    <img src={design.imageUrl} alt="Design" className="img-fluid mb-2" />
                     <div className="text-black text-center">{design.designName}</div>
                   </div>
                 </button>
@@ -48,7 +45,7 @@ const Sidebar = ({ designs: initialDesigns,onSelectDesign }) => {
           ) : (
             <li className="nav-item">
               <span className="nav-link text-muted">
-                Not Found
+                No designs found
               </span>
             </li>
           )}
