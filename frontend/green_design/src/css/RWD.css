@@ -1,0 +1,78 @@
+/* 針對桌面端的大螢幕 (>= 1200px) *
+  
+  /* 針對筆記型電腦和中等螢幕 (768px - 1199px) */
+  @media (min-width: 768px) and (max-width: 1440px) {
+    /* design form 的部分 */
+    .p-4.rounded {
+      /* padding: 10px !important; 20px * 0.67 */
+      /* border-radius: 6.7px !important; 10px * 0.67 */
+      padding: 10px !important;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .col-2.col-form-label.text-start{
+        font-size: 12px;
+    }
+
+    .form-control{
+        font-size: 12px;
+    }
+
+    .mb-2.row.align-items-center{
+        margin-bottom: 0px !important;
+    }
+
+    /* .col-9.d-flex.align-items-center.mb-2{
+        m
+    } */
+  
+    form .col-2 {
+      width: 87.1px !important; /* 130px * 0.67 */
+    }
+  
+    form .d-flex {
+      flex-direction: row !important;
+    }
+  
+    form .text-end {
+      justify-content: center !important;
+    }
+
+    .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom {
+        margin-bottom: 5;
+    }
+
+    .grid{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important;
+        /* grid-template-rows: repeat(2, 1fr) !important; */
+        gap: 5px;
+    }
+
+    /* .mb-2.row{
+        display: flex;
+    } */
+
+    .col-2.col-form-label.text-start{
+        max-width: 200px !important;
+    }
+
+    .d-flex.justify-content-between.mb-2{
+        margin-bottom: 2px;
+    }
+    .form-check-label {
+        font-size: 12px;
+    }
+
+    /* header 的部分 */
+    .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom > h2{
+        font-size: 28px;
+    }
+    .btn.btn-dark.rounded-pill.d-flex.align-items-center.me-3{
+        font-size: 10px;
+    }
+}
+
+
+  

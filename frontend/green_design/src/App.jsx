@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MainPage from './MainPage/MainPage';
 import DesignPage from './DesignPage/DesignPage';
 import LoginRegistrationForm from './LoginPage/LoginRegistrationForm';
+import './css/RWD.css';
+
 
 
 const App = () => {

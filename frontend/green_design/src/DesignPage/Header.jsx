@@ -4,6 +4,7 @@ import { Modal, Button } from 'react-bootstrap';
 import homeIcon from '../assets/home.png';
 import penIcon from '../assets/pen-tool.png';
 import UserAccountMenu from '../component/UserAccountMenu';
+import '../css/RWD.css';
 
 const Header = ({ onNewDesign, isDesignFormDirty, currentDesign }) => {
     const [showModal, setShowModal] = useState(false);

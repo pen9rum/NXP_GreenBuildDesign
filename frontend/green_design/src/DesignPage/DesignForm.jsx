@@ -8,6 +8,7 @@ import bedroomIcon from '../assets/bedroom.png';
 import kitchenIcon from '../assets/kitchen.png';
 import livingroomIcon from '../assets/livingroom.png';
 import designImage from '../assets/design.jpeg';
+import '../css/RWD.css';
 
 const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
   const navigate = useNavigate();
@@ -148,118 +149,127 @@ const DesignForm = ({ onSubmit, initialData, isDirty, setIsDirty }) => {
   return (
     <>
       <form onSubmit={handleSubmit} className="p-4 rounded" style={{ backgroundColor: '#F0F0F0' }}>
-        <div className="mb-2 row align-items-center">
-          <label htmlFor="designName" className="col-2 col-form-label text-start mb-2">Design Name:</label>
-          <div className="col-9 mb-2">
-            <input
-              type="text"
-              className="form-control"
-              id="designName"
-              value={designName}
-              onChange={(e) => setDesignName(e.target.value)}
-              style={{ width: '250px' }}
+        <div className='outerLayout'>
+          <div className="mb-2 row align-items-center">
+            <label htmlFor="designName" className="col-2 col-form-label text-start mb-2">Design Name:</label>
+            <div className="col-9 mb-2">
+              <input
+                type="text"
+                className="form-control"
+                id="designName"
+                value={designName}
+                onChange={(e) => setDesignName(e.target.value)}
+                style={{ width: '250px' }}
 
-              required
-            />
+                required
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="mb-2 row align-items-center">
-          <label className="col-2 col-form-label text-start mb-2">House Area:</label>
-          <div className="col-9 d-flex align-items-center mb-2">
-            <input
-              type="number"
-              className="form-control me-2"
-              placeholder="length"
-              value={length}
-              onChange={(e) => setLength(e.target.value)}
-              style={{ width: '100px' }}
-              required
-            />
-            <span className="me-2">m</span>
-            <span className="me-2">×</span>
-            <input
-              type="number"
-              className="form-control me-2"
-              placeholder="width"
-              value={width}
-              onChange={(e) => setWidth(e.target.value)}
-              style={{ width: '100px' }}
-              required
-            />
-            <span>m</span>
+          <div className="mb-2 row align-items-center">
+            <label className="col-2 col-form-label text-start mb-2">House Area:</label>
+            <div className="col-9 d-flex align-items-center mb-2">
+              <input
+                type="number"
+                className="form-control me-2"
+                placeholder="length"
+                value={length}
+                onChange={(e) => setLength(e.target.value)}
+                style={{ width: '100px' }}
+                required
+              />
+              <span className="me-2">m</span>
+              <span className="me-2">×</span>
+              <input
+                type="number"
+                className="form-control me-2"
+                placeholder="width"
+                value={width}
+                onChange={(e) => setWidth(e.target.value)}
+                style={{ width: '100px' }}
+                required
+              />
+              <span>m</span>
+            </div>
           </div>
-        </div>
 
-        <div className="mb-2 row">
-          <label className="col-2 col-form-label text-start mb-2">Room Amount:</label>
-          <div className="col-9 mb-2">
-            <div className="d-flex justify-content-between" style={{ maxWidth: '600px' }}>
-              {Object.entries(rooms).map(([room, count]) => (
-                <div key={room} className="text-center " style={{
-                  width: '120px',
-                  height: '120px',
-                  border: '1px solid black',
-                  borderRadius: '10px',
-                  padding: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  alignItems: 'center'
+          <div className="mb-2 row">
+            <label className="col-2 col-form-label text-start mb-2">Room Amount:</label>
+            <div className="col-9 mb-2">
+              <div className="d-flex justify-content-between" style={{ maxWidth: '600px', flexDirection: 'row' }}>
+                <div className='grid' > 
+                {/* style={{display: 'flex', gap: '20px'}}  */}
+                  {/* 做 RWD */}
+                  {Object.entries(rooms).map(([room, count]) => (
+                    <div key={room} className="text-center " style={{
+                      width: '120px',
+                      height: '120px',
+                      border: '1px solid black',
+                      borderRadius: '10px',
+                      padding: '10px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      alignItems: 'center'
 
-                }}>
-                  <img src={roomIcons[room]} alt={room} style={{ width: '40px', height: '40px', marginBottom: '5px' }} />
-                  <div style={{ fontSize: '0.8rem' }}>{room.replace(/([A-Z])/g, ' $1').trim()}</div>
-                  <div className="btn-group btn-group-sm" role="group">
-                    <button type="button" className="btn btn-outline-secondary" onClick={() => handleRoomChange(room, -1)}>-</button>
-                    <button type="button" className="btn btn-outline-secondary" disabled>{count}</button>
-                    <button type="button" className="btn btn-outline-secondary" onClick={() => handleRoomChange(room, 1)}>+</button>
+                    }}>
+                    <img src={roomIcons[room]} alt={room} style={{ width: '40px', height: '40px', marginBottom: '5px' }} />
+                    <div style={{ fontSize: '0.8rem' }}>{room.replace(/([A-Z])/g, ' $1').trim()}</div>
+                    <div className="btn-group btn-group-sm" role="group">
+                      <button type="button" className="btn btn-outline-secondary" onClick={() => handleRoomChange(room, -1)}>-</button>
+                      <button type="button" className="btn btn-outline-secondary" disabled>{count}</button>
+                      <button type="button" className="btn btn-outline-secondary" onClick={() => handleRoomChange(room, 1)}>+</button>
+                    </div>
                   </div>
+                  ))}
                 </div>
-              ))}
+                
+              </div>
             </div>
           </div>
         </div>
-
-        <div className="mb-2 row">
-          <label className="col-2 col-form-label text-start">Windows:</label>
-          <div className="col-10">
-            <div className="position-relative mb-2" style={{ width: '100%', maxWidth: '400px' }}>
-              <img src={designImage} alt="Floor Plan" className="img-fluid" />
+        
+        <div className='outerLayout'>
+          <div className="mb-2 row">
+            <label className="col-2 col-form-label text-start">Windows:</label>
+            <div className="col-10">
+              <div className="position-relative mb-2" style={{ width: '100%', maxWidth: '400px' }}>
+                <img src={designImage} alt="Floor Plan" className="img-fluid" />
+              </div>
+              <div className="d-flex justify-content-between mb-2" style={{ maxWidth: '400px' }}>
+                {['top', 'right', 'bottom', 'left'].map((position) => (
+                  <div key={position} className="form-check">
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id={`window-${position}`}
+                      checked={windows[position]}
+                      onChange={() => handleWindowChange(position)}
+                    />
+                    <label className="form-check-label " htmlFor={`window-${position}`}>
+                      {position}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="d-flex justify-content-between mb-2" style={{ maxWidth: '400px' }}>
-              {['top', 'right', 'bottom', 'left'].map((position) => (
-                <div key={position} className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id={`window-${position}`}
-                    checked={windows[position]}
-                    onChange={() => handleWindowChange(position)}
-                  />
-                  <label className="form-check-label " htmlFor={`window-${position}`}>
-                    {position}
-                  </label>
-                </div>
-              ))}
+          </div>
+
+          <div className="mb-2 row">
+            <label htmlFor="specialRequest" className="col-2 col-form-label text-start">Special Request:</label>
+            <div className="col-10">
+              <textarea
+                className="form-control"
+                id="specialRequest"
+                value={specialRequest}
+                onChange={(e) => setSpecialRequest(e.target.value)}
+                style={{ width: '100%', minHeight: '100px' }}
+                placeholder="Enter any special requests or additional information here..."
+              />
             </div>
           </div>
         </div>
-
-        <div className="mb-2 row">
-          <label htmlFor="specialRequest" className="col-2 col-form-label text-start">Special Request:</label>
-          <div className="col-10">
-            <textarea
-              className="form-control"
-              id="specialRequest"
-              value={specialRequest}
-              onChange={(e) => setSpecialRequest(e.target.value)}
-              style={{ width: '100%', minHeight: '100px' }}
-              placeholder="Enter any special requests or additional information here..."
-            />
-          </div>
-        </div>
-
+        
         <div className="text-end">
           <button type="submit" className="btn btn-dark">Submit</button>
         </div>

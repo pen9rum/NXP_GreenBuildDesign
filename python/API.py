@@ -58,25 +58,6 @@ def create_design():
     # 返回創建的設計的 ID 和所有設計
     return jsonify(response), 201
 
-# 獲取歷史紀錄
-@app.route('/api/getHistoryDesigns', methods=['GET'])
-def getHistoryDesign():
-    # designs_ref = db.collection('designs')  # 替換 'designs' 為您的集合名稱
-    # designs = designs_ref.stream()
-
-    # history_designs = []
-    # for design in designs:
-    #     history_designs.append(design.to_dict())  # 將每個設計轉換為字典格式
-
-    return jsonify(
-        [
-            {
-                'id':0,
-                'designName': 'test',   
-            }
-        ]
-    ), 200  # 返回歷史紀錄，狀態碼 200
-
 
 if __name__ == '__main__':
     app.run(debug=True)  # 啟動 Flask 應用
