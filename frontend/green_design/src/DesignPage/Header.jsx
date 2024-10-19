@@ -4,9 +4,8 @@ import { Modal, Button } from 'react-bootstrap';
 import homeIcon from '../assets/home.png';
 import penIcon from '../assets/pen-tool.png';
 import UserAccountMenu from '../component/UserAccountMenu';
-import '../css/RWD.css';
 
-const Header = ({ onNewDesign, isDesignFormDirty, currentDesign }) => {
+const Header = ({ onNewDesign, isDesignFormDirty, currentDesign, onMouseEnter, onMouseLeave }) => {
     const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
 
@@ -27,11 +26,22 @@ const Header = ({ onNewDesign, isDesignFormDirty, currentDesign }) => {
 
     return (
         <>
-            <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h2>Create Your Design</h2>
+            <div className="d-flex justify-content-between align-items-center w-100 px-3 py-2"
+                 style={{
+                    backgroundColor: 'rgba(64, 64, 64, 0.7)',
+                    zIndex: 1001
+                 }}>
+                 <h2 
+                    className="m-0 text-white" 
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
+                    style={{ cursor: 'pointer' }}
+                 >
+                    GreenBuilder
+                 </h2>
                 <div className="d-flex align-items-center">
                     <button 
-                        className="btn btn-dark rounded-pill d-flex align-items-center me-3"
+                        className="btn btn-light rounded-pill d-flex align-items-center me-3"
                         onClick={handleNewDesign}
                     >
                         <img src={penIcon} alt="New Design" style={{ width: '20px', height: '20px', marginRight: '5px' }} />
