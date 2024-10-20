@@ -1,0 +1,83 @@
+[
+    {
+        "designName": "new design",
+        "summary": "根據輸入數據的設計摘要。",
+        "createdAt": "2024-10-20T08:40:17.126228",
+        "locations": {
+            "位置A": {
+                "temperature": 27,
+                "humidity": 65,
+                "sunlight": 600
+            },
+            "位置B": {
+                "temperature": 25,
+                "humidity": 55,
+                "sunlight": 300
+            },
+            "位置C": {
+                "temperature": 28,
+                "humidity": 70,
+                "sunlight": 450
+            },
+            "位置D": {
+                "temperature": 26,
+                "humidity": 60,
+                "sunlight": 200
+            }
+        }
+    },
+    {
+        "designName": "new design",
+        "summary": "根據輸入數據的設計摘要。",
+        "createdAt": "2024-10-20T08:41:31.220926",
+        "locations": {
+            "位置A": {
+                "temperature": 27,
+                "humidity": 65,
+                "sunlight": 600
+            },
+            "位置B": {
+                "temperature": 25,
+                "humidity": 55,
+                "sunlight": 300
+            },
+            "位置C": {
+                "temperature": 28,
+                "humidity": 70,
+                "sunlight": 450
+            },
+            "位置D": {
+                "temperature": 26,
+                "humidity": 60,
+                "sunlight": 200
+            }
+        }
+    },
+    {
+        "designName": "new design",
+        "summary": "根據輸入數據的設計摘要。",
+        "createdAt": "2024-10-20T08:48:03.593403",
+        "locations": {
+            "位置A": {
+                "temperature": 27,
+                "humidity": 65,
+                "sunlight": 600
+            },
+            "位置B": {
+                "temperature": 25,
+                "humidity": 55,
+                "sunlight": 300
+            },
+            "位置C": {
+                "temperature": 28,
+                "humidity": 70,
+                "sunlight": 450
+            },
+            "位置D": {
+                "temperature": 26,
+                "humidity": 60,
+                "sunlight": 200
+            }
+        }
+    }
+]

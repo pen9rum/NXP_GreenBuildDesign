@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?debugstack-directory version="1.0"?>
-<directory xmlns:xi="http://www.w3.org/2001/XInclude">
-   <xi:include href="file:/C:/Users/USER/OneDrive/桌面/大學用/npx_refresh/NXP_GreenBuildDesign/hardware/.mcuxpressoide_packages_support/MIMXRT1052xxxxB_support/MIMXRT1050_dir_part.xml"/>
-   <xi:include href="file:/C:/Users/USER/OneDrive/桌面/大學用/npx_refresh/NXP_GreenBuildDesign/hardware/.mcuxpressoide_packages_support/MIMXRT1062xxxxB_support/MIMXRT1060_dir_part.xml"/>
-</directory>
